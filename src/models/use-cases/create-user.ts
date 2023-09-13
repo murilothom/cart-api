@@ -3,6 +3,7 @@ import { hash } from 'bcryptjs'
 import { User } from '@prisma/client'
 import { CreateUserDto } from '../types/dto/CreateUserDto'
 import { PrismaUsersRepository } from '../repositories/prisma/prisma-users-repository'
+import { InMemoryUsersRepository } from '../../../test/repositories/in-memory-users-repository'
 
 interface CreateUserUseCaseResponse {
   user: User
@@ -10,7 +11,10 @@ interface CreateUserUseCaseResponse {
 
 @Injectable()
 export class CreateUserUseCase {
-  constructor(private readonly usersRepository: PrismaUsersRepository) {}
+  constructor(
+    // TODO: Arrumar tipo do usersRepository
+    private usersRepository: PrismaUsersRepository | InMemoryUsersRepository,
+  ) {}
 
   async execute({
     email,

@@ -9,7 +9,7 @@ interface CreateUserResponse {
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly createUserUseCase: CreateUserUseCase) {}
+  constructor(private createUserUseCase: CreateUserUseCase) {}
 
   @Post()
   @HttpCode(201)
