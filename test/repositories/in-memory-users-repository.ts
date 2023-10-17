@@ -1,25 +1,27 @@
 import { Prisma, User } from '@prisma/client'
-import { UsersRepository } from '../../src/models/repositories/users-repository'
+import { IUsersRepository } from '../../src/models/repositories/users-repository'
 import { randomUUID } from 'node:crypto'
-import { Injectable } from '@nestjs/common'
 
-@Injectable()
-export class InMemoryUsersRepository implements UsersRepository {
+export class InMemoryUsersRepository implements IUsersRepository {
   public items: User[] = []
 
-  async create(user: Prisma.UserCreateInput): Promise<User> {
-    const data: User = {
+  async create({
+    email,
+    name,
+    password,
+  }: Prisma.UserCreateInput): Promise<User> {
+    const user: User = {
       id: randomUUID(),
-      email: user.email,
-      name: user.name,
-      password: user.password,
+      email,
+      name,
+      password,
       createdAt: new Date(),
-      updatedAt: undefined,
+      updatedAt: null,
     }
 
-    this.items.push(data)
+    this.items.push(user)
 
-    return data
+    return user
   }
 
   async findByEmail(email: string): Promise<User | null> {

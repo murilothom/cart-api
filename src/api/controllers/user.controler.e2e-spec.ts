@@ -20,7 +20,7 @@ describe('Create User (E2E)', () => {
     await app.init()
   })
 
-  test('[POST] /user - Success', async () => {
+  test('[POST] /user', async () => {
     const response = await request(app.getHttpServer()).post('/user').send({
       name: 'Fulano',
       email: 'fulano@contato.com',
@@ -29,9 +29,9 @@ describe('Create User (E2E)', () => {
 
     expect(response.statusCode).toBe(201)
 
-    const user = await prismaService.user.findUnique({
+    const user = await prismaService.user.findUniqueOrThrow({
       where: {
-        email: 'fulano@contato.com',
+        email: 'fulano@contato.coma',
       },
     })
 

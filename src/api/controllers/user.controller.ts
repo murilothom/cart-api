@@ -1,15 +1,16 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common'
-import { CreateUserUseCase } from '../../models/use-cases/create-user'
-import { User } from '@prisma/client'
-import { CreateUserDto } from '../../models/types/dto/CreateUserDto'
+import { Body, Controller, HttpCode, Inject, Post } from '@nestjs/common'
+import { CreateUserUseCase } from '../../models/use-cases/create-user.use-case'
+import { UserViewModel } from '../../models/types/user-view-model'
+import { CreateUserDto } from '../../models/types/dto/create-user.dto'
 
 interface CreateUserResponse {
-  user: User
+  user: UserViewModel
 }
 
 @Controller('user')
 export class UserController {
-  constructor(private createUserUseCase: CreateUserUseCase) {}
+  @Inject(CreateUserUseCase)
+  private readonly createUserUseCase: CreateUserUseCase
 
   @Post()
   @HttpCode(201)

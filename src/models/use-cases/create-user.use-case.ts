@@ -1,19 +1,18 @@
-import { ConflictException, Injectable } from '@nestjs/common'
+import { ConflictException, Inject, Injectable } from '@nestjs/common'
 import { hash } from 'bcryptjs'
-import { User } from '@prisma/client'
-import { CreateUserDto } from '../types/dto/CreateUserDto'
-import { PrismaUsersRepository } from '../repositories/prisma/prisma-users-repository'
-import { InMemoryUsersRepository } from '../../../test/repositories/in-memory-users-repository'
+import { IUsersRepository } from '../repositories/users-repository'
+import { UserViewModel, mapToUserViewModel } from '../types/user-view-model'
+import { CreateUserDto } from '../types/dto/create-user.dto'
 
 interface CreateUserUseCaseResponse {
-  user: User
+  user: UserViewModel
 }
 
 @Injectable()
 export class CreateUserUseCase {
   constructor(
-    // TODO: Arrumar tipo do usersRepository
-    private usersRepository: PrismaUsersRepository | InMemoryUsersRepository,
+    @Inject('IUsersRepository')
+    private usersRepository: IUsersRepository,
   ) {}
 
   async execute({
@@ -37,10 +36,7 @@ export class CreateUserUseCase {
     const user = await this.usersRepository.create(data)
 
     return {
-      user: {
-        ...user,
-        password: undefined,
-      },
+      user: mapToUserViewModel(user),
     }
   }
 }

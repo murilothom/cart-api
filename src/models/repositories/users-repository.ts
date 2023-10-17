@@ -1,7 +1,6 @@
-import { User } from '@prisma/client'
-import { CreateUserDto } from '../types/dto/CreateUserDto'
+import { Prisma, User } from '@prisma/client'
 
-export abstract class UsersRepository {
-  abstract create(user: CreateUserDto): Promise<User>
-  abstract findByEmail(email: string): Promise<User | null>
+export interface IUsersRepository {
+  create(user: Prisma.UserCreateInput): Promise<User>
+  findByEmail(email: string): Promise<User | null>
 }
