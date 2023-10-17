@@ -1,9 +1,0 @@
-### Create User
-POST http://localhost:3333/user
-Content-Type: application/json
-
-{
-  "name": "Fulano",
-  "email": "fulano@email.com",
-  "password": "123456"
-}

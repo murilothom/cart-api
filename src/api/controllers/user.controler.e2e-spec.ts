@@ -31,10 +31,32 @@ describe('Create User (E2E)', () => {
 
     const user = await prismaService.user.findUniqueOrThrow({
       where: {
-        email: 'fulano@contato.coma',
+        email: 'fulano@contato.com',
       },
     })
 
     expect(user.id).toBeTruthy()
+  })
+
+  test('[PATCH] /user', async () => {
+    const user = await prismaService.user.findUniqueOrThrow({
+      where: {
+        email: 'fulano@contato.com',
+      },
+    })
+
+    await request(app.getHttpServer()).patch(`/user/${user.id}`).send({
+      name: 'Novo nome',
+      email: 'novo_email_fulano@contato.com',
+    })
+
+    const updatedUser = await prismaService.user.findUniqueOrThrow({
+      where: {
+        id: user.id,
+      },
+    })
+
+    expect(updatedUser.name).toBe('Novo nome')
+    expect(updatedUser.email).toBe('novo_email_fulano@contato.com')
   })
 })

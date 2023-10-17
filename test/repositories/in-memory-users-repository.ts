@@ -1,22 +1,19 @@
-import { Prisma, User } from '@prisma/client'
+import { User } from '@prisma/client'
 import { IUsersRepository } from '../../src/models/repositories/users-repository'
 import { randomUUID } from 'node:crypto'
+import { CreateUserDto } from '../../src/models/types/dto/create-user.dto'
 
 export class InMemoryUsersRepository implements IUsersRepository {
   public items: User[] = []
 
-  async create({
-    email,
-    name,
-    password,
-  }: Prisma.UserCreateInput): Promise<User> {
+  async create({ email, name, password }: CreateUserDto): Promise<User> {
     const user: User = {
       id: randomUUID(),
       email,
       name,
       password,
       createdAt: new Date(),
-      updatedAt: null,
+      updatedAt: new Date(),
     }
 
     this.items.push(user)
@@ -24,8 +21,24 @@ export class InMemoryUsersRepository implements IUsersRepository {
     return user
   }
 
+  async update(user: User): Promise<void> {
+    const userIndex = this.items.findIndex((u) => u.id === user.id)
+
+    this.items[userIndex] = user
+  }
+
   async findByEmail(email: string): Promise<User | null> {
     const user = this.items.find((item) => item.email === email)
+
+    if (!user) {
+      return null
+    }
+
+    return user
+  }
+
+  async findById(id: string): Promise<User | null> {
+    const user = this.items.find((item) => item.id === id)
 
     if (!user) {
       return null
