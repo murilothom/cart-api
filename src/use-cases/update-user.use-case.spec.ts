@@ -1,7 +1,7 @@
 import { hash } from 'bcryptjs'
 import { InMemoryUsersRepository } from '../../../test/repositories/in-memory-users-repository'
 import { ConflictException, NotFoundException } from '@nestjs/common'
-import { UpdateUserDto } from '../types/dto/update-user.dto'
+import { UpdateUserDto } from '../../types/dto/update-user.dto'
 import { UpdateUserUseCase } from './update-user.use-case'
 
 let inMemoryUsersRepository: InMemoryUsersRepository

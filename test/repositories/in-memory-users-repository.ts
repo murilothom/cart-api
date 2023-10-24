@@ -1,7 +1,7 @@
 import { User } from '@prisma/client'
-import { IUsersRepository } from '../../src/models/repositories/users-repository'
 import { randomUUID } from 'node:crypto'
-import { CreateUserDto } from '../../src/models/types/dto/create-user.dto'
+import { CreateUserDto } from '../../src/types/dto/create-user.dto'
+import { IUsersRepository } from '../../src/repositories/users-repository'
 
 export class InMemoryUsersRepository implements IUsersRepository {
   public items: User[] = []

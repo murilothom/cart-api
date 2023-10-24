@@ -1,10 +1,10 @@
 import { INestApplication } from '@nestjs/common'
-import { PrismaService } from '../../prisma/prisma.service'
-import { AppModule } from '../../app.module'
+import { AppModule } from '../app.module'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { PrismaService } from '../services/prisma.service'
 
-describe('Create User (E2E)', () => {
+describe('User Controller (E2E)', () => {
   let app: INestApplication
   let prismaService: PrismaService
 

@@ -7,11 +7,11 @@ import {
   Patch,
   Post,
 } from '@nestjs/common'
-import { CreateUserUseCase } from '../../models/use-cases/create-user.use-case'
-import { UserViewModel } from '../../models/types/user-view-model'
-import { CreateUserDto } from '../../models/types/dto/create-user.dto'
-import { UpdateUserDto } from '../../models/types/dto/update-user.dto'
-import { UpdateUserUseCase } from '../../models/use-cases/update-user.use-case'
+import { UserViewModel } from '../types/user-view-model'
+import { CreateUserDto } from '../types/dto/create-user.dto'
+import { UpdateUserDto } from '../types/dto/update-user.dto'
+import { UpdateUserUseCase } from '../use-cases/update-user.use-case'
+import { CreateUserUseCase } from '../use-cases/create-user.use-case'
 
 interface CreateUserResponse {
   user: UserViewModel

@@ -1,8 +1,8 @@
 import { hash } from 'bcryptjs'
-import { InMemoryUsersRepository } from '../../../test/repositories/in-memory-users-repository'
 import { ConflictException } from '@nestjs/common'
 import { CreateUserUseCase } from './create-user.use-case'
 import { CreateUserDto } from '../types/dto/create-user.dto'
+import { InMemoryUsersRepository } from '../../test/repositories/in-memory-users-repository'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let sut: CreateUserUseCase

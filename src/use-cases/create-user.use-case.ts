@@ -33,10 +33,12 @@ export class CreateUserUseCase {
       name,
       password: hashedPassword,
     }
-    const user = await this.usersRepository.create(data)
+    const user = await this.usersRepository
+      .create(data)
+      .then(mapToUserViewModel)
 
     return {
-      user: mapToUserViewModel(user),
+      user,
     }
   }
 }
