@@ -3,8 +3,8 @@ import { AppModule } from '../app.module'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { JwtService } from '@nestjs/jwt'
-import { PrismaService } from '../prisma/prisma.service'
 import { hash } from 'bcryptjs'
+import { PrismaService } from '../services/prisma.service'
 
 describe('Authenticate Controller (E2E)', () => {
   let app: INestApplication
@@ -24,7 +24,7 @@ describe('Authenticate Controller (E2E)', () => {
     await app.init()
   })
 
-  test('[POST] /sessions', async () => {
+  test('[POST] /auth/login', async () => {
     await prismaService.user.create({
       data: {
         email: 'fulano@contato.com',
@@ -33,11 +33,14 @@ describe('Authenticate Controller (E2E)', () => {
       },
     })
 
-    const response = await request(app.getHttpServer()).post('/sessions').send({
-      email: 'fulano@contato.com',
-      password: 'senhaforte123',
-    })
+    const response = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: 'fulano@contato.com',
+        password: 'senhaforte123',
+      })
 
     expect(response.statusCode).toBe(201)
+    expect(response.body.access_token).toBeTruthy()
   })
 })

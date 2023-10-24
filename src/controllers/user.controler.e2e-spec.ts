@@ -3,10 +3,12 @@ import { AppModule } from '../app.module'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { PrismaService } from '../services/prisma.service'
+import { JwtService } from '@nestjs/jwt'
 
 describe('User Controller (E2E)', () => {
   let app: INestApplication
   let prismaService: PrismaService
+  let jwtService: JwtService
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -16,6 +18,7 @@ describe('User Controller (E2E)', () => {
     app = moduleRef.createNestApplication()
 
     prismaService = moduleRef.get(PrismaService)
+    jwtService = moduleRef.get(JwtService)
 
     await app.init()
   })
@@ -45,10 +48,15 @@ describe('User Controller (E2E)', () => {
       },
     })
 
-    await request(app.getHttpServer()).patch(`/user/${user.id}`).send({
-      name: 'Novo nome',
-      email: 'novo_email_fulano@contato.com',
-    })
+    const accessToken = jwtService.sign({ sub: user.id })
+
+    await request(app.getHttpServer())
+      .patch(`/user/${user.id}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        name: 'Novo nome',
+        email: 'novo_email_fulano@contato.com',
+      })
 
     const updatedUser = await prismaService.user.findUniqueOrThrow({
       where: {
