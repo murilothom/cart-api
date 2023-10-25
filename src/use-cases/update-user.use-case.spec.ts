@@ -1,8 +1,9 @@
 import { hash } from 'bcryptjs'
-import { InMemoryUsersRepository } from '../../../test/repositories/in-memory-users-repository'
 import { ConflictException, NotFoundException } from '@nestjs/common'
-import { UpdateUserDto } from '../../types/dto/update-user.dto'
 import { UpdateUserUseCase } from './update-user.use-case'
+import { InMemoryUsersRepository } from '../../test/repositories/in-memory-users-repository'
+import { UpdateUserDto } from '../types/dto/update-user.dto'
+import { TokenPayload } from '../types/token-payload'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let sut: UpdateUserUseCase
@@ -25,7 +26,11 @@ describe('Update User', () => {
       name: 'new testing name',
     }
 
-    await sut.execute(user.id, data)
+    const currentUser: TokenPayload = {
+      sub: user.id,
+    }
+
+    await sut.execute(data, currentUser)
 
     const updatedUser = await inMemoryUsersRepository.findById(user.id)
 
@@ -38,9 +43,9 @@ describe('Update User', () => {
       email: 'test@email.com',
     }
 
-    await expect(() => sut.execute('fake-id', data)).rejects.toBeInstanceOf(
-      NotFoundException,
-    )
+    await expect(() =>
+      sut.execute(data, { sub: 'fake-id' }),
+    ).rejects.toBeInstanceOf(NotFoundException)
   })
 
   it('should not be able to update an user with an existent email', async () => {
@@ -60,7 +65,11 @@ describe('Update User', () => {
       email: 'test@email.com',
     }
 
-    await expect(() => sut.execute(user.id, data)).rejects.toBeInstanceOf(
+    const currentUser: TokenPayload = {
+      sub: user.id,
+    }
+
+    await expect(() => sut.execute(data, currentUser)).rejects.toBeInstanceOf(
       ConflictException,
     )
   })

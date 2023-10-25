@@ -51,7 +51,7 @@ describe('User Controller (E2E)', () => {
     const accessToken = jwtService.sign({ sub: user.id })
 
     await request(app.getHttpServer())
-      .patch(`/user/${user.id}`)
+      .patch(`/user`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'Novo nome',
