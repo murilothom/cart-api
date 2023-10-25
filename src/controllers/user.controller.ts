@@ -13,7 +13,7 @@ import { UpdateUserUseCase } from '../use-cases/update-user.use-case'
 import { CreateUserUseCase } from '../use-cases/create-user.use-case'
 import { JwtAuthGuard } from '../auth/jwt-auth.guard'
 import { CurrentUser } from '../auth/current-user.decorator'
-import { TokenPayload } from '../types/token-payload'
+import { UserPayload } from '../types/user-payload'
 
 interface CreateUserResponse {
   user: UserViewModel
@@ -36,7 +36,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   async update(
     @Body() body: UpdateUserDto,
-    @CurrentUser() currentUser: TokenPayload,
+    @CurrentUser() currentUser: UserPayload,
   ): Promise<void> {
     return this.updateUserUseCase.execute(body, currentUser)
   }

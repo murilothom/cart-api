@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common'
 import { IUsersRepository } from '../repositories/users-repository'
 import { UpdateUserDto } from '../types/dto/update-user.dto'
-import { TokenPayload } from '../types/token-payload'
+import { UserPayload } from '../types/user-payload'
 
 @Injectable()
 export class UpdateUserUseCase {
@@ -15,7 +15,7 @@ export class UpdateUserUseCase {
     private usersRepository: IUsersRepository,
   ) {}
 
-  async execute(dto: UpdateUserDto, currentUser: TokenPayload): Promise<void> {
+  async execute(dto: UpdateUserDto, currentUser: UserPayload): Promise<void> {
     const { email, name } = dto
     const userId = currentUser.sub
 

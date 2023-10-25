@@ -3,7 +3,7 @@ import { ConflictException, NotFoundException } from '@nestjs/common'
 import { UpdateUserUseCase } from './update-user.use-case'
 import { InMemoryUsersRepository } from '../../test/repositories/in-memory-users-repository'
 import { UpdateUserDto } from '../types/dto/update-user.dto'
-import { TokenPayload } from '../types/token-payload'
+import { UserPayload } from '../types/user-payload'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let sut: UpdateUserUseCase
@@ -26,7 +26,7 @@ describe('Update User', () => {
       name: 'new testing name',
     }
 
-    const currentUser: TokenPayload = {
+    const currentUser: UserPayload = {
       sub: user.id,
     }
 
@@ -65,7 +65,7 @@ describe('Update User', () => {
       email: 'test@email.com',
     }
 
-    const currentUser: TokenPayload = {
+    const currentUser: UserPayload = {
       sub: user.id,
     }
 
