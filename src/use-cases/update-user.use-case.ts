@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common'
 import { IUsersRepository } from '../repositories/users-repository'
 import { UpdateUserDto } from '../types/dto/update-user.dto'
+import { TokenPayload } from '../types/token-payload'
 
 @Injectable()
 export class UpdateUserUseCase {
@@ -14,8 +15,11 @@ export class UpdateUserUseCase {
     private usersRepository: IUsersRepository,
   ) {}
 
-  async execute(id: string, { email, name }: UpdateUserDto): Promise<void> {
-    const user = await this.usersRepository.findById(id)
+  async execute(dto: UpdateUserDto, currentUser: TokenPayload): Promise<void> {
+    const { email, name } = dto
+    const userId = currentUser.sub
+
+    const user = await this.usersRepository.findById(userId)
 
     if (!user) {
       throw new NotFoundException('User not found.')
@@ -24,7 +28,7 @@ export class UpdateUserUseCase {
     if (email) {
       const userWithSameEmail = await this.usersRepository.findByEmail(email)
 
-      if (userWithSameEmail && userWithSameEmail.id !== id) {
+      if (userWithSameEmail && userWithSameEmail.id !== userId) {
         throw new ConflictException('E-mail in use.')
       }
     }
