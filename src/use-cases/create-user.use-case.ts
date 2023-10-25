@@ -1,12 +1,9 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common'
 import { hash } from 'bcryptjs'
 import { IUsersRepository } from '../repositories/users-repository'
-import { UserViewModel, mapToUserViewModel } from '../types/user-view-model'
+import { mapToUserViewModel } from '../types/user-view-model'
 import { CreateUserDto } from '../types/dto/create-user.dto'
-
-interface CreateUserUseCaseResponse {
-  user: UserViewModel
-}
+import { CreateUserResponse } from '../types/responses/create-user-response'
 
 @Injectable()
 export class CreateUserUseCase {
@@ -19,7 +16,7 @@ export class CreateUserUseCase {
     email,
     name,
     password,
-  }: CreateUserDto): Promise<CreateUserUseCaseResponse> {
+  }: CreateUserDto): Promise<CreateUserResponse> {
     const userExists = await this.usersRepository.findByEmail(email)
 
     if (userExists) {

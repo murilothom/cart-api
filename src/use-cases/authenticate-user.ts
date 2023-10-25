@@ -3,10 +3,7 @@ import { compare } from 'bcryptjs'
 import { IUsersRepository } from '../repositories/users-repository'
 import { AuthenticateUserDto } from '../types/dto/authenticate-user.dto'
 import { JwtService } from '@nestjs/jwt'
-
-type AuthenticateUserUseCaseResponse = {
-  access_token: string
-}
+import { AuthenticateUserResponse } from '../types/responses/authenticate-user-response'
 
 @Injectable()
 export class AuthenticateUserUseCase {
@@ -19,7 +16,7 @@ export class AuthenticateUserUseCase {
   async execute({
     email,
     password,
-  }: AuthenticateUserDto): Promise<AuthenticateUserUseCaseResponse> {
+  }: AuthenticateUserDto): Promise<AuthenticateUserResponse> {
     const user = await this.usersRepository.findByEmail(email)
 
     if (!user) {
