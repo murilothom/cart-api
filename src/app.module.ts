@@ -9,6 +9,7 @@ import { PrismaUsersRepository } from './repositories/prisma/prisma-users-reposi
 import { CreateUserUseCase } from './use-cases/create-user.use-case'
 import { UpdateUserUseCase } from './use-cases/update-user.use-case'
 import { AuthenticateUserUseCase } from './use-cases/authenticate-user.use-case'
+import { ChangeUserPasswordUseCase } from './use-cases/change-user-password.use-case'
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AuthenticateUserUseCase } from './use-cases/authenticate-user.use-case'
     CreateUserUseCase,
     UpdateUserUseCase,
     AuthenticateUserUseCase,
+    ChangeUserPasswordUseCase,
   ],
 })
 export class AppModule {}

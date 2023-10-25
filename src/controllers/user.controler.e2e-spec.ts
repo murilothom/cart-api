@@ -4,6 +4,7 @@ import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { PrismaService } from '../services/prisma.service'
 import { JwtService } from '@nestjs/jwt'
+import { compare } from 'bcryptjs'
 
 describe('User Controller (E2E)', () => {
   let app: INestApplication
@@ -66,5 +67,33 @@ describe('User Controller (E2E)', () => {
 
     expect(updatedUser.name).toBe('Novo nome')
     expect(updatedUser.email).toBe('novo_email_fulano@contato.com')
+  })
+
+  test('[PATCH] /user/password', async () => {
+    const user = await prismaService.user.findUniqueOrThrow({
+      where: {
+        email: 'novo_email_fulano@contato.com',
+      },
+    })
+
+    const accessToken = jwtService.sign({ sub: user.id })
+
+    await request(app.getHttpServer())
+      .patch(`/user/password`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        password: 'senhaforte123',
+        new_password: 'nova_senha123',
+      })
+
+    const updatedUser = await prismaService.user.findUniqueOrThrow({
+      where: {
+        id: user.id,
+      },
+    })
+
+    const changedPassword = await compare('nova_senha123', updatedUser.password)
+
+    expect(changedPassword).toBe(true)
   })
 })

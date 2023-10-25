@@ -2,13 +2,11 @@ import { INestApplication } from '@nestjs/common'
 import { AppModule } from '../app.module'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
-import { JwtService } from '@nestjs/jwt'
 import { hash } from 'bcryptjs'
 import { PrismaService } from '../services/prisma.service'
 
 describe('Authenticate Controller (E2E)', () => {
   let app: INestApplication
-  let jwtService: JwtService
   let prismaService: PrismaService
 
   beforeAll(async () => {
@@ -18,7 +16,6 @@ describe('Authenticate Controller (E2E)', () => {
 
     app = moduleRef.createNestApplication()
 
-    jwtService = moduleRef.get(JwtService)
     prismaService = moduleRef.get(PrismaService)
 
     await app.init()
