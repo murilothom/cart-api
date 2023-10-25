@@ -1,5 +1,5 @@
 import { InMemoryUsersRepository } from '../../test/repositories/in-memory-users-repository'
-import { AuthenticateUserUseCase } from './authenticate-user'
+import { AuthenticateUserUseCase } from './authenticate-user.use-case'
 import { JwtService } from '@nestjs/jwt'
 import { AuthenticateUserDto } from '../types/dto/authenticate-user.dto'
 import { hash } from 'bcryptjs'
@@ -10,7 +10,7 @@ import { INestApplication, UnauthorizedException } from '@nestjs/common'
 let inMemoryUsersRepository: InMemoryUsersRepository
 let sut: AuthenticateUserUseCase
 
-describe('Create User', () => {
+describe('Authenticate User', () => {
   let app: INestApplication
   let jwtService: JwtService
 

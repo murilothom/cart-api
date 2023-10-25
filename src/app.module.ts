@@ -8,7 +8,7 @@ import { PrismaService } from './services/prisma.service'
 import { PrismaUsersRepository } from './repositories/prisma/prisma-users-repository'
 import { CreateUserUseCase } from './use-cases/create-user.use-case'
 import { UpdateUserUseCase } from './use-cases/update-user.use-case'
-import { AuthenticateUserUseCase } from './use-cases/authenticate-user'
+import { AuthenticateUserUseCase } from './use-cases/authenticate-user.use-case'
 
 @Module({
   imports: [
