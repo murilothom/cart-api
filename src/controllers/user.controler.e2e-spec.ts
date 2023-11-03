@@ -108,7 +108,7 @@ describe('User Controller (E2E)', () => {
 
     const accessToken = jwtService.sign({ sub: userToDelete.id })
 
-    await request(app.getHttpServer())
+    const response = await request(app.getHttpServer())
       .delete(`/user`)
       .set('Authorization', `Bearer ${accessToken}`)
 
@@ -118,6 +118,7 @@ describe('User Controller (E2E)', () => {
       },
     })
 
+    expect(response.statusCode).toBe(204)
     expect(user).toBe(null)
   })
 })

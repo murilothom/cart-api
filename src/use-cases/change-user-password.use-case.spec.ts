@@ -1,5 +1,4 @@
 import { InMemoryUsersRepository } from '../../test/repositories/in-memory-users-repository'
-// import { AuthenticateUserDto } from '../types/dto/authenticate-user.dto'
 import { compare, hash } from 'bcryptjs'
 import { UnauthorizedException } from '@nestjs/common'
 import { ChangeUserPasswordUseCase } from './change-user-password.use-case'

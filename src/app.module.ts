@@ -11,6 +11,9 @@ import { UpdateUserUseCase } from './use-cases/update-user.use-case'
 import { AuthenticateUserUseCase } from './use-cases/authenticate-user.use-case'
 import { ChangeUserPasswordUseCase } from './use-cases/change-user-password.use-case'
 import { DeleteUserUseCase } from './use-cases/delete-user.use-case'
+import { PrismaCartsRepository } from './repositories/prisma/prisma-carts-repository'
+import { CreateCartUseCase } from './use-cases/create-cart.use-case'
+import { CartsController } from './controllers/carts.controller'
 
 @Module({
   imports: [
@@ -20,7 +23,7 @@ import { DeleteUserUseCase } from './use-cases/delete-user.use-case'
     }),
     AuthModule,
   ],
-  controllers: [UserController, AuthenticateController],
+  controllers: [UserController, AuthenticateController, CartsController],
   providers: [
     PrismaService,
     PrismaUsersRepository,
@@ -33,6 +36,12 @@ import { DeleteUserUseCase } from './use-cases/delete-user.use-case'
     DeleteUserUseCase,
     AuthenticateUserUseCase,
     ChangeUserPasswordUseCase,
+    PrismaCartsRepository,
+    {
+      provide: 'ICartsRepository',
+      useExisting: PrismaCartsRepository,
+    },
+    CreateCartUseCase,
   ],
 })
 export class AppModule {}
