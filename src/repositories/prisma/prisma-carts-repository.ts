@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { Cart } from '@prisma/client'
 import { PrismaService } from '../../services/prisma.service'
 import { ICartsRepository } from '../carts-repository'
+import { PaginationParams } from '../../types/pagination-params'
 
 @Injectable()
 export class PrismaCartsRepository implements ICartsRepository {
@@ -12,6 +13,19 @@ export class PrismaCartsRepository implements ICartsRepository {
       data: {
         userId,
       },
+    })
+  }
+
+  findManyByUserId(
+    userId: string,
+    paginationParams: PaginationParams,
+  ): Promise<Cart[]> {
+    return this.prismaService.cart.findMany({
+      where: {
+        userId,
+      },
+      take: 20,
+      skip: (paginationParams.page - 1) * 20,
     })
   }
 

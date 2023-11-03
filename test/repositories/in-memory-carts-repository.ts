@@ -1,7 +1,7 @@
 import { Cart } from '@prisma/client'
 import { randomUUID } from 'node:crypto'
 import { ICartsRepository } from '../../src/repositories/carts-repository'
-import { PaginationParams } from '../../src/types/paginantion-params'
+import { PaginationParams } from '../../src/types/pagination-params'
 
 export class InMemoryCartsRepository implements ICartsRepository {
   public items: Cart[] = []

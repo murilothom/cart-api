@@ -14,6 +14,7 @@ import { DeleteUserUseCase } from './use-cases/delete-user.use-case'
 import { PrismaCartsRepository } from './repositories/prisma/prisma-carts-repository'
 import { CreateCartUseCase } from './use-cases/create-cart.use-case'
 import { CartsController } from './controllers/carts.controller'
+import { FetchCartsUseCase } from './use-cases/fetch-carts.use-case'
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { CartsController } from './controllers/carts.controller'
       useExisting: PrismaCartsRepository,
     },
     CreateCartUseCase,
+    FetchCartsUseCase,
   ],
 })
 export class AppModule {}

@@ -1,5 +1,5 @@
 import { Cart } from '@prisma/client'
-import { PaginationParams } from '../types/paginantion-params'
+import { PaginationParams } from '../types/pagination-params'
 
 export interface ICartsRepository {
   create(userId: string): Promise<Cart>
