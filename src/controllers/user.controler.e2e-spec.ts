@@ -4,7 +4,7 @@ import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { PrismaService } from '../services/prisma.service'
 import { JwtService } from '@nestjs/jwt'
-import { compare } from 'bcryptjs'
+import { compare, hash } from 'bcryptjs'
 
 describe('User Controller (E2E)', () => {
   let app: INestApplication
@@ -95,5 +95,29 @@ describe('User Controller (E2E)', () => {
     const changedPassword = await compare('nova_senha123', updatedUser.password)
 
     expect(changedPassword).toBe(true)
+  })
+
+  test('DELETE /user', async () => {
+    const userToDelete = await prismaService.user.create({
+      data: {
+        email: 'user_to_delete@email.com',
+        name: 'user to delete',
+        password: await hash('123456', 8),
+      },
+    })
+
+    const accessToken = jwtService.sign({ sub: userToDelete.id })
+
+    await request(app.getHttpServer())
+      .delete(`/user`)
+      .set('Authorization', `Bearer ${accessToken}`)
+
+    const user = await prismaService.user.findUnique({
+      where: {
+        email: 'user_to_delete@email.com',
+      },
+    })
+
+    expect(user).toBe(null)
   })
 })

@@ -10,6 +10,7 @@ import { CreateUserUseCase } from './use-cases/create-user.use-case'
 import { UpdateUserUseCase } from './use-cases/update-user.use-case'
 import { AuthenticateUserUseCase } from './use-cases/authenticate-user.use-case'
 import { ChangeUserPasswordUseCase } from './use-cases/change-user-password.use-case'
+import { DeleteUserUseCase } from './use-cases/delete-user.use-case'
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ChangeUserPasswordUseCase } from './use-cases/change-user-password.use-
     },
     CreateUserUseCase,
     UpdateUserUseCase,
+    DeleteUserUseCase,
     AuthenticateUserUseCase,
     ChangeUserPasswordUseCase,
   ],

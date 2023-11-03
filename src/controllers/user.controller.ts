@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   HttpCode,
   Inject,
   Patch,
@@ -18,6 +19,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { CreateUserResponse } from '../types/responses/create-user-response'
 import { ChangeUserPasswordDto } from '../types/dto/change-user-password.dto'
 import { ChangeUserPasswordUseCase } from '../use-cases/change-user-password.use-case'
+import { DeleteUserUseCase } from '../use-cases/delete-user.use-case'
 
 @Controller('user')
 @ApiTags('User Controller')
@@ -30,6 +32,9 @@ export class UserController {
 
   @Inject(ChangeUserPasswordUseCase)
   private readonly changeUserPasswordUseCase: ChangeUserPasswordUseCase
+
+  @Inject(DeleteUserUseCase)
+  private readonly deleteUserUseCase: DeleteUserUseCase
 
   @Post()
   @ApiResponse({ status: 201, type: CreateUserResponse })
@@ -57,5 +62,13 @@ export class UserController {
     @CurrentUser() currentUser: UserPayload,
   ) {
     return this.changeUserPasswordUseCase.execute(body, currentUser)
+  }
+
+  @Delete()
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(204)
+  @ApiResponse({ status: 204 })
+  async delete(@CurrentUser() currentUser: UserPayload): Promise<void> {
+    return this.deleteUserUseCase.execute(currentUser)
   }
 }
